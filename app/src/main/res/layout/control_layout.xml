@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="28dp"
         android:layout_marginRight="24dp"
         android:hint="input"
         android:inputType="text"
@@ -20,55 +20,37 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/set_button"
+        android:id="@+id/show_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Set"
-        app:layout_constraintHorizontal_bias="0.049"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="84dp"
+        android:text="SHOW"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input" />
 
     <Button
-        android:id="@+id/Start"
+        android:id="@+id/set_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="4dp"
-        android:text="Start"
-        app:layout_constraintHorizontal_bias="0.851"
+        android:layout_marginRight="8dp"
+        android:text="SET"
+        app:layout_constraintHorizontal_bias="0.175"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/set_button" />
+        app:layout_constraintTop_toBottomOf="@+id/input" />
 
-    <Button
-        android:id="@+id/show_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SHOW"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Start"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="120dp" />
-
-    <TextView
-        android:id="@+id/Text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/show_info"
-        app:layout_constraintVertical_bias="0.098"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp" />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/Text"
-        app:layout_constraintTop_toBottomOf="@id/Text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/show_info"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints"
 
-         />
-
+        tools:layout_editor_absoluteX="0dp" />
 </android.support.constraint.ConstraintLayout>

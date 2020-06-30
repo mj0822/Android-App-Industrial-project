@@ -10,6 +10,7 @@ import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.method.TextKeyListener.clear
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.EditText
@@ -28,17 +29,25 @@ class SharedPreference(val context: Context) : AppCompatActivity(){
         editor.putString(KEY_NAME, value)
 
         editor.commit()
-        
+
     }
     fun getValueString(KEY_NAME: String): String? {
 
         return sharedPref.getString(KEY_NAME, null)
+
     }
+    fun checkKey(KEY_NAME: String): Boolean {
+        sharedPref.contains(KEY_NAME)
+            return true
+    }
+
 }
 class ControlActivity: AppCompatActivity() {
     var list: ArrayList<String> = ArrayList()
     lateinit var arrayAdapter: ArrayAdapter<String>
-    var i = 0
+
+    var i: Int= 0
+
 
     companion object {
         var m_myUUID: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
@@ -62,47 +71,75 @@ class ControlActivity: AppCompatActivity() {
         val number = findViewById<EditText>(R.id.input)
         val text = number.text
 
+
+
         val sharedPreference:SharedPreference = SharedPreference(this)
-        set_button.setOnClickListener {
-
-            Toast.makeText(this," entered text is " + text , Toast.LENGTH_LONG).show()
-            sendCommand(text.toString())
-
-           i= i+1
-            sharedPreference.save(i.toString(),text.toString())
 
 
-
+        fun isNullOrEmpty(str: String?): Boolean {
+            if (str != null && !str.isEmpty())
+                return false
+            return true
         }
-        //control_led_off.setOnClickListener { sendCommand("b")
 
-        show_info.setOnClickListener {
 
+        show_info.setOnClickListener{
             i=i+1
 
             if (sharedPreference.getValueString(i.toString())!=null) {
-                val info = findViewById<ListView>(R.id.listView)
-//              number.hint = sharedPreference.getValueString(count2.toString())!!
-                val item = sharedPreference.getValueString(i.toString())!!
-                Toast.makeText(this@ControlActivity,item,Toast.LENGTH_SHORT).show()
 
-                list.add(item)
-                input.setText("")
-                arrayAdapter.notifyDataSetChanged()
-                listView.adapter = arrayAdapter
-
+//                i=i+1
+//                val info = findViewById<ListView>(R.id.listView)
+////              number.hint = sharedPreference.getValueString(count2.toString())!!
+//                val item = sharedPreference.getValueString(i.toString())!!
+//                list.add(i.toString() + ".    " +item)
+//                input.setText("")
+//                arrayAdapter.notifyDataSetChanged()
+//                listView.adapter = arrayAdapter
+                Log.d("TAG","INSIDEIF")
+                    while(true) {
+                        if(sharedPreference.checkKey(i.toString())) {
+                            Log.d("TAG", "found key")
+                            val item1: String = sharedPreference.getValueString(i.toString())!!
+                            Log.d("TAG", item1)
+                                if (isNullOrEmpty(item1)) {
+                                    Log.d("TAG", "inside null wala if")
+                                    break
+                                }
+                                Log.d("TAG", "IF MAI NHIIIIII GHUSA")
+                                val info = findViewById<ListView>(R.id.listView)
+                                list.add(item1.toString())
+                                input.setText("")
+                                arrayAdapter.notifyDataSetChanged()
+                                listView.adapter = arrayAdapter
+                                i = i + 1
+                        }
+                        else{
+                            Log.d("TAG","KEY NOT FOUND")
+                            Log.d("TAG",i.toString())
+                            break
+                        }
+                    }
 
             }
-            else{
-                number.hint="NO value found"
+            else {
+                number.hint = "NO value found"
             }
+
+
         }
+        set_button.setOnClickListener {
+            Toast.makeText(this,"i is "+i+"Text is" + text.toString() , Toast.LENGTH_LONG).show()
+            sendCommand(text.toString())
+            i=i+1
+            sharedPreference.save(i.toString(),text.toString())
+            //Log.d("TAG","i is"+i.toString()+"text is"+text.toString())
+        }
+
+
     }
-
-
 //    textView.setText("string"). toString()
 //    val textViewValue = textView.text
-
     private fun sendCommand(input: String) {
         if (m_bluetoothSocket != null) {
             try{
