@@ -20,6 +20,8 @@ import kotlinx.android.synthetic.main.control_layout.*
 import java.io.IOException
 import java.util.*
 
+var i: Int= 0
+
 class SharedPreference(val context: Context) : AppCompatActivity(){
     val sharedPref: SharedPreferences = context.getSharedPreferences("Name", Context.MODE_PRIVATE)
 
@@ -33,7 +35,7 @@ class SharedPreference(val context: Context) : AppCompatActivity(){
     }
     fun getValueString(KEY_NAME: String): String? {
 
-        return sharedPref.getString(KEY_NAME, null)
+        return sharedPref.getString(KEY_NAME, "")
 
     }
     fun checkKey(KEY_NAME: String): Boolean {
@@ -46,7 +48,7 @@ class ControlActivity: AppCompatActivity() {
     var list: ArrayList<String> = ArrayList()
     lateinit var arrayAdapter: ArrayAdapter<String>
 
-    var i: Int= 0
+
 
 
     companion object {
@@ -77,16 +79,45 @@ class ControlActivity: AppCompatActivity() {
 
 
         fun isNullOrEmpty(str: String?): Boolean {
+            Log.d("TAG",str)
             if (str != null && !str.isEmpty())
                 return false
             return true
         }
+        i=1
 
+        while(true) {
+            if(sharedPreference.checkKey(i.toString())) {
+                Log.d("TAG", "found key")
+                val item1: String = sharedPreference.getValueString(i.toString())!!
+                if (isNullOrEmpty(item1)) {
+                    Log.d("TAG", "inside null wala if")
+                    break
+                }
+                Log.d("TAG", "IF MAI NHIIIIII GHUSA")
+                val info = findViewById<ListView>(R.id.listView)
+                list.add(item1.toString())
+//                input.setText("")
+//                arrayAdapter.notifyDataSetChanged()
+//                listView.adapter = arrayAdapter
+
+            }
+            else{
+                Log.d("TAG","KEY NOT FOUND")
+                Log.d("TAG",i.toString())
+                break
+            }
+            i = i + 1
+        }
 
         show_info.setOnClickListener{
-            i=i+1
+//            Log.d("TAG","i KA Value"+i.toString())
 
-            if (sharedPreference.getValueString(i.toString())!=null) {
+//            if (sharedPreference.getValueString(i.toString())!=null) {
+//                val item1: String = sharedPreference.getValueString(i.toString())!!
+//                list.add(item1.toString())
+                arrayAdapter.notifyDataSetChanged()
+                listView.adapter = arrayAdapter
 
 //                i=i+1
 //                val info = findViewById<ListView>(R.id.listView)
@@ -97,43 +128,27 @@ class ControlActivity: AppCompatActivity() {
 //                arrayAdapter.notifyDataSetChanged()
 //                listView.adapter = arrayAdapter
                 Log.d("TAG","INSIDEIF")
-                    while(true) {
-                        if(sharedPreference.checkKey(i.toString())) {
-                            Log.d("TAG", "found key")
-                            val item1: String = sharedPreference.getValueString(i.toString())!!
-                            Log.d("TAG", item1)
-                                if (isNullOrEmpty(item1)) {
-                                    Log.d("TAG", "inside null wala if")
-                                    break
-                                }
-                                Log.d("TAG", "IF MAI NHIIIIII GHUSA")
-                                val info = findViewById<ListView>(R.id.listView)
-                                list.add(item1.toString())
-                                input.setText("")
-                                arrayAdapter.notifyDataSetChanged()
-                                listView.adapter = arrayAdapter
-                                i = i + 1
-                        }
-                        else{
-                            Log.d("TAG","KEY NOT FOUND")
-                            Log.d("TAG",i.toString())
-                            break
-                        }
-                    }
 
-            }
-            else {
-                number.hint = "NO value found"
-            }
 
 
         }
         set_button.setOnClickListener {
-            Toast.makeText(this,"i is "+i+"Text is" + text.toString() , Toast.LENGTH_LONG).show()
+
             sendCommand(text.toString())
-            i=i+1
             sharedPreference.save(i.toString(),text.toString())
-            //Log.d("TAG","i is"+i.toString()+"text is"+text.toString())
+//            Log.d("TAG", "$i =itext is $text")
+            if (sharedPreference.getValueString(i.toString())!=null) {
+                val item1: String = sharedPreference.getValueString(i.toString())!!
+                list.add(item1)
+                Toast.makeText(this,"i is"+i.toString()+"text is"+text.toString(),Toast.LENGTH_SHORT).show()
+
+                i = i + 1
+
+            }
+
+            else {
+                number.hint = "NO value found"
+            }
         }
 
 
