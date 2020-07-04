@@ -7,8 +7,11 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import kotlinx.android.synthetic.main.select_device_layout.*
 import org.jetbrains.anko.toast
 
@@ -38,6 +41,21 @@ class SelectDeviceActivity : AppCompatActivity() {
 
         select_device_refresh.setOnClickListener{ pairedDeviceList() }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+         super.onCreateOptionsMenu(menu)
+            menuInflater.inflate(R.menu.main,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        var selectedOption=""
+        when(item?.itemId){
+            R.id.config->selectedOption="config"
+        }
+        Toast.makeText(this,"selected option  is this"+selectedOption,Toast.LENGTH_SHORT).show()
+        return super.onOptionsItemSelected(item)
     }
 
     private fun pairedDeviceList() {
